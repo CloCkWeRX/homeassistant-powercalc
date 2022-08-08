@@ -2,7 +2,7 @@ import urllib.request
 import csv
 
 categories = {
-	# "28": "Refrigerator/Freezer",
+	"28": "Refrigerator/Freezer",
 	# "32": "Televisions",
 	# "33": "Set Top Boxes",
 	# "34": "Linear Fluorescent Lamps",
@@ -26,6 +26,67 @@ categories = {
 	# "74": "Computer Monitors",
 	# "83": "Pool Pump"
 }
+class RefrigeratorFreezerMapper:
+	def __init__(self, row):
+		# Adaptive Defrost
+		# ApplStandard
+		self.brand = row[2] #Brand
+		self.watts = float(row[3]) / 365 / 24 / 60 / 60 # CEC_
+		# CompartGrVol
+		# CompartNetVol
+		# CompartType
+		# Configuration
+		# Country
+		# Depth
+		# Designation
+		# FF Vol
+		# FZ Vol
+		# Group
+		# Height
+		# Icemaker
+		# MEPSApproval
+		self.model_number = row[17] # Model No
+		# Family Name
+		self.measure_description = row[19] # N-Standard
+		# Star2009
+		# SRI2009
+		# No_Doors
+		# S-MEPS_Ad
+		# S-MEPScutoff
+		# Sold_in
+		# Submit_ID
+		# SubmitStatus
+		# Tot Vol
+		# Width
+		# ExpDate
+		# GrandDate
+		# Product Class
+		# Availability Status
+		# Product Website
+		# Representative Brand URL
+		# Fixed MEPS allowance factor
+		# Variable MEPS allowance factor
+		# Adjusted volume	Type
+		# Star Rating (old)
+		# Star Image Large
+		# Star Image Small
+		# Registration Number
+
+
+	def as_model_json(self):
+		return {
+		   "name": self.brand + ' ' + self.model_number,
+		   "aliases": [
+		       self.model_number
+		   ],
+		   "measure_description": self.measure_description,
+		   "measure": "manual",
+		   "device_type": "appliance",
+		   "supported_modes": ["fixed"],
+		   "fixed_config": {
+		       "watt": self.watts
+		   }
+		}
 
 class IncandescentLampMapper:
 	def __init__(self, row):
@@ -70,7 +131,8 @@ class IncandescentLampMapper:
 		}
 
 mappers = {
-	"Incandescent Lamps": IncandescentLampMapper
+	"Incandescent Lamps": IncandescentLampMapper,
+	"Refrigerator/Freezer": RefrigeratorFreezerMapper
 }
 
 # TODO: Each of these is a different format
