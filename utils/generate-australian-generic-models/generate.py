@@ -56,12 +56,17 @@ class IncandescentLampMapper:
 
 	def as_model_json(self):
 		return {
-		   "brand": self.brand,
-		   "model_number": self.model_number,
+		   "name": self.brand + ' ' + self.model_number,
+		   "aliases": [
+		       self.model_number
+		   ],
 		   "measure_description": self.measure_description,
 		   "measure": "manual",
 		   "device_type": "light",
-		   "supported_modes": ["fixed"]
+		   "supported_modes": ["fixed"],
+		   "fixed_config": {
+		       "watt": self.watts
+		   }
 		}
 
 mappers = {
