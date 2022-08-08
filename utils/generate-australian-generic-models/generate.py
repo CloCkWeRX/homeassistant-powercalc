@@ -36,7 +36,7 @@ class IncandescentLampMapper:
 		# "SoldIn",
 		# "Country",
 		# "Sing_or_fam",
-		self.watts = row[7] # "nom_lamp_power", # Lamp Watts
+		self.watts = float(row[7]) # "nom_lamp_power", # Lamp Watts
 		# "avg_meas_lum_flux",
 		# "median_lamp_life",
 		# "lumen_maintenance"
@@ -81,6 +81,9 @@ for key, label in categories.items():
 
 	response = urllib.request.urlopen(url)
 	lines = [l.decode('utf-8') for l in response.readlines()]
+	n = 0
 	for row in csv.reader(lines):
-		mapper = mappers[label](row)
-		print(mapper.as_model_json())
+		if n > 0:
+			mapper = mappers[label](row)
+			print(mapper.as_model_json())
+		n += 1
