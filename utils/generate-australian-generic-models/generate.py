@@ -2,8 +2,8 @@ import urllib.request
 import csv
 
 categories = {
-    # "28": "Refrigerator/Freezer",
-    # "32": "Televisions",
+    "28": "Refrigerator/Freezer",
+    "32": "Televisions",
     "33": "Set Top Boxes",
     # "34": "Linear Fluorescent Lamps",
     # "35": "Clothes Dryers",
@@ -43,16 +43,16 @@ class DefaultMapper:
             "fixed_config": {"watt": self.watts},
         }
 
-        if self.min_power:
+        if hasattr(self, "min_power"):
             core["fixed_config"]["min_power"] = self.min_power
 
-        if self.max_power:
+        if hasattr(self, "max_power"):
             core["fixed_config"]["max_power"] = self.max_power
 
-        if self.active_standby_power:
+        if hasattr(self, "active_standby_power"):
             core["fixed_config"]["standby_power_on"] = self.active_standby_power
 
-        if self.passive_standby_power:
+        if hasattr(self, "passive_standby_power"):
             core["fixed_config"]["standby_power"] = self.passive_standby_power
 
         return core
@@ -227,8 +227,9 @@ class LinearFluorescentLampMapper(DefaultMapper):
         self.x = row
 
 
-class RefrigeratorFreezerMapper:
+class RefrigeratorFreezerMapper(DefaultMapper):
     def __init__(self, row):
+        self.device_type = "appliance"
         # Adaptive Defrost
         # ApplStandard
         self.brand = row[2]  # Brand
@@ -272,16 +273,6 @@ class RefrigeratorFreezerMapper:
         # Star Image Large
         # Star Image Small
         # Registration Number
-
-        return {
-            "name": self.brand + " " + self.model_number,
-            "aliases": [self.model_number],
-            "measure_description": self.measure_description,
-            "measure": "manual",
-            "device_type": "appliance",
-            "supported_modes": ["fixed"],
-            "fixed_config": {"watt": self.watts},
-        }
 
 
 class IncandescentLampMapper:
