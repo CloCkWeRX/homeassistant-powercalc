@@ -2,12 +2,12 @@ import urllib.request
 import csv
 
 categories = {
-    #"28": "Refrigerator/Freezer",
-    #"32": "Televisions",
-    #"33": "Set Top Boxes",
+    # "28": "Refrigerator/Freezer",
+    # "32": "Televisions",
+    # "33": "Set Top Boxes",
     # "34": "Linear Fluorescent Lamps",
     # "35": "Clothes Dryers",
-    # "37": "Refrigerated Cabinets",
+    "37": "Refrigerated Cabinets",
     # "38": "Distribution Transformers",
     # "39": "ELV Lighting Converter/Transformer",
     # "40": "Incandescent Lamps",
@@ -214,74 +214,114 @@ class DistributionTransformerMapper(DefaultMapper):
 
 class RefrigeratedCabinetMapper(DefaultMapper):
     def __init__(self, row):
-        self.x = row
+        self.device_type = "appliance"
+        self.measure_description = row[0]  # ApplStandard
+        self.brand = row[1]  # Brand
+        # climate_class
+        # Country
+        # high_efficiency
+        self.model_number = row[5]  # Model No
+        # Family Name
+        self.measure_description = row[11]  # N-Standard
+        # Sold_in
+        # Submit_ID
+        # SubmitStatus
+        # Temp_Class
+        # total_dis_area
+        # total_energy_cons
+        # type
+        # ExpDate
+        # GrandDate
+        # Product Class
+        # Availability Status
+        # Product Website
+        # Representative Brand URL
+        # Type
+        # Efficiency (kWh/24h/m²)
+        # Length
+        # Climate Class
+        # Depth
+        # Cabinet Description
+        # Total Energy Consumption(kWh/24h)
+        # Cabinet Type
+        # Star Rating Energy
+        # Efficiency Index
+        # Width
+        # Net Volume
+        # Height
+        # Duty
+        # Type
+        # Product Class Number
+
+    def as_model_json(self):
+        return {}
 
 
 class ClothesDryerMapper(DefaultMapper):
     def __init__(self, row):
-        self.device_type = 'appliance'
+        self.device_type = "appliance"
         # self.measure_description = row[0] # ApplStandard
-        self.brand = row[1] # Brand   
-        # Cap 
-        # Combination 
+        self.brand = row[1]  # Brand
+        # Cap
+        # Combination
         # Control
         # Country
         # Depth
         # Height
-        self.model_number = row[8] # Model No    
-        # Family Name 
-        self.measure_description = row[10] # N-Standard
-        self.watts = self.cec_to_watts(row[11]) # New CEC 
-        # New SRI 
-        # New Star    
-        # Prog Name   
-        # Prog Time   
-        # Sold_in 
-        # SubmitStatus    
-        # Submit_ID   
-        # Test_Moist_Remove   
-        # Tot_Wat_Cons    
-        # Type   
-        # Width 
-        # ExpDate 
-        # GrandDate 
-        # Product Class 
+        self.model_number = row[8]  # Model No
+        # Family Name
+        self.measure_description = row[10]  # N-Standard
+        self.watts = self.cec_to_watts(row[11])  # New CEC
+        # New SRI
+        # New Star
+        # Prog Name
+        # Prog Time
+        # Sold_in
+        # SubmitStatus
+        # Submit_ID
+        # Test_Moist_Remove
+        # Tot_Wat_Cons
+        # Type
+        # Width
+        # ExpDate
+        # GrandDate
+        # Product Class
         # Availability Status
-        # Product Website 
-        # Representative Brand URL  
-        # Star Rating (old) 
-        # Star Image Large 
+        # Product Website
+        # Representative Brand URL
+        # Star Rating (old)
+        # Star Image Large
         # Star Image Small
-
 
 
 class LinearFluorescentLampMapper(DefaultMapper):
     def __init__(self, row):
         self.device_type = "light"
-        # self.measure_description = row[0] # ApplStandard  
-        self.brand = row[1] # Brand 
-        # Country 
-        # Lamp_Freq 
-        self.model_number = row[4] # Model No
+        self.measure_description = row[0]  # ApplStandard
+        self.brand = row[1]  # Brand
+        # Country
+        # Lamp_Freq
+        self.model_number = row[4]  # Model No
         # Family Name
-        self.measure_description = row[6] # N-Standard
+        if row[6] != "":
+            self.measure_description = row[6]  # N-Standard
         # nom_len
-        self.watts = float(row[8])# nom_watt 
-        # Rated_CRI 
+        self.watts = float(row[8])  # nom_watt
+        # Rated_CRI
         # Rated_IE
         # Rated_IL
         # Rated_ILW
-        # Rated_ME 
-        # Rated_ML 
-        # Rated_MLW 
+        # Rated_ME
+        # Rated_ML
+        # Rated_MLW
         # Sold_in
-        # Submit_ID 
-        # SubmitStatus 
-        # ExpDate 
-        # GrandDate 
-        # Product Class 
+        # Submit_ID
+        # SubmitStatus
+        # ExpDate
+        # GrandDate
+        # Product Class
         # Availability Status
-        # Product Website 
+        # Product Website
         # Representative Brand URL
         # ILCOS Code
         # Nominal Diameter (mm)
