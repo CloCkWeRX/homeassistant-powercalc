@@ -7,10 +7,10 @@ categories = {
     # "33": "Set Top Boxes",
     # "34": "Linear Fluorescent Lamps",
     # "35": "Clothes Dryers",
-    "37": "Refrigerated Cabinets",
+    # "37": "Refrigerated Cabinets",
     # "38": "Distribution Transformers",
     # "39": "ELV Lighting Converter/Transformer",
-    # "40": "Incandescent Lamps",
+    "40": "Incandescent Lamps",
     # "41": "Dishwashers",
     # "49": "Clothes Washers",
     # "51": "Ballasts",
@@ -375,7 +375,7 @@ class RefrigeratorFreezerMapper(DefaultMapper):
         # Registration Number
 
 
-class IncandescentLampMapper:
+class IncandescentLampMapper(DefaultMapper):
     def __init__(self, row):
         self.device_type = "light"
 
