@@ -39,8 +39,10 @@ class TelevisionMapper:
         # screensize
         # Screen_Area
         # Screen_Tech
-        self.passive_standby_power = float(row[9])  # Pasv_stnd_power
-        self.active_standby_power = float(row[10])  # Act_stnd_power
+        if row[9] != "-":
+            self.passive_standby_power = float(row[9])  # Pasv_stnd_power
+        if row[10] != "-":
+            self.active_standby_power = float(row[10])  # Act_stnd_power
         # Act_stnd_time
         self.average_power = float(row[12])  # Avg_mode_power
         # Star
