@@ -3,7 +3,7 @@ import csv
 
 categories = {
     # "28": "Refrigerator/Freezer",
-    "32": "Televisions",
+    # "32": "Televisions",
     # "33": "Set Top Boxes",
     # "34": "Linear Fluorescent Lamps",
     # "35": "Clothes Dryers",
@@ -28,7 +28,26 @@ categories = {
 }
 
 
-class TelevisionMapper:
+class DefaultMapper:
+    def __init__(self, row):
+        return
+
+    def as_model_json(self):
+        return {
+            "name": self.brand + " " + self.model_number,
+            "aliases": [self.model_number],
+            "measure_description": self.measure_description,
+            "measure": "manual",
+            "device_type": "appliance",
+            "supported_modes": ["fixed"],
+            "fixed_config": {"watt": self.watts},
+        }
+
+    def cec_to_watts(self, value):
+        return float(value) / 365 / 24 / 60 / 60
+
+
+class TelevisionMapper(DefaultMapper):
     def __init__(self, row):
         # Submit_ID
         self.brand = row[1]  # Brand_Reg
@@ -47,7 +66,7 @@ class TelevisionMapper:
         self.average_power = float(row[12])  # Avg_mode_power
         # Star
         # SRI
-        self.watts = float(row[15]) / 365 / 24 / 60 / 60  # CEC
+        self.watts = self.cec_to_watts(row[15])  # CEC
         # SubmitStatus
         # ExpDate
         # GrandDate
@@ -64,85 +83,56 @@ class TelevisionMapper:
         self.measure_description = row[29]  # What test standard was used
         # Registration Number
 
-    def as_model_json(self):
-        return {
-            "name": self.brand + " " + self.model_number,
-            "aliases": [self.model_number],
-            "measure_description": self.measure_description,
-            "measure": "manual",
-            "device_type": "appliance",
-            "supported_modes": ["fixed"],
-            "fixed_config": {"watt": self.watts},
-        }
 
-
-class SetTopBoxMapper:
+class SetTopBoxMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
         #
 
 
-class PoolPumpMapper:
+class PoolPumpMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class ComputerMonitorMapper:
+class ComputerMonitorMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class ComputerMapper:
+class ComputerMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class AirConditionerMapper:
+class AirConditionerMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class HotWaterHeaterGasMapper:
+class HotWaterHeaterGasMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class CompactFluorescentLampMapper:
+class CompactFluorescentLampMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class CloseControlAirConditionerMapper:
+class CloseControlAirConditionerMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
-
-    #
 
 
 class ChillerMapper:
     def __init__(self, row):
         self.x = row
 
-    #
-
 
 class HotWaterHeaterEletricMapper:
     def __init__(self, row):
         self.x = row
-
-    #
 
 
 class ExternalPowerSupplyMapper:
@@ -220,7 +210,7 @@ class RefrigeratorFreezerMapper:
         # Adaptive Defrost
         # ApplStandard
         self.brand = row[2]  # Brand
-        self.watts = float(row[3]) / 365 / 24 / 60 / 60  # CEC_
+        self.watts = self.cec_to_watts(row[3])  # CEC_
         # CompartGrVol
         # CompartNetVol
         # CompartType
