@@ -11,7 +11,7 @@ categories = {
     # "38": "Distribution Transformers",
     # "39": "ELV Lighting Converter/Transformer",
     # "40": "Incandescent Lamps",
-    "41": "Dishwashers",
+    # "41": "Dishwashers",
     # "49": "Clothes Washers",
     # "51": "Ballasts",
     # "54": "Electric Motors",
@@ -23,7 +23,7 @@ categories = {
     # "62": "Hot Water Heaters (Gas)",
     # "64": "Air Conditioners",
     # "73": "Computers",
-    # "74": "Computer Monitors",
+    "74": "Computer Monitors",
     # "83": "Pool Pump"
 }
 
@@ -139,7 +139,28 @@ class PoolPumpMapper(DefaultMapper):
 
 class ComputerMonitorMapper(DefaultMapper):
     def __init__(self, row):
-        self.x = row
+        self.device_type = "appliance"
+        self.measure_description = "Unspecified energy standard"
+        # Record ID
+        # Status
+        self.brand = row[2]  # Brand Name
+        self.model_number = row[3]  # Model Number
+        # Family Name
+        # Selling Countries
+        # Manufacturing Countries
+        # Screen Size
+        # Screen Technology
+        self.watts = self.cec_to_watts(row[9])  # Comparative Energy Consumption
+        self.active_standby_power = float(row[10])  # Active Standby Power
+        # Star Rating Index
+        # Star Rating
+        # Product Website
+        # Representative Brand URL
+        # Availability
+        # Status
+        # Expiry Date
+        # Star Image Large
+        # Star Image Small
 
 
 class ComputerMapper(DefaultMapper):
@@ -192,27 +213,112 @@ class BallastMapper(DefaultMapper):
         self.x = row
 
 
+# Only exactly two models have two drums, out of 1000+ models.
+# This is ignored.
+# TODO: Cold vs Hot CEC
+# TODO: Water consumption
 class ClothesWasherMapper(DefaultMapper):
     def __init__(self, row):
-        self.x = row
+        self.device_type = "appliance"
+        # ApplStandard
+        self.brand = row[1]  # Brand
+        # Cap
+        # Cap (Second Drum)
+        if self.none_or_float(row[4]):
+            self.watts_cold = self.cec_to_watts(row[4])  # CEC Cold
+        # CEC Cold (Second Drum)
+        self.watts = self.cec_to_watts(row[6])  # CEC_
+        # CEC_ (Second Drum)
+        # Cold Prog
+        # Cold Prog (Second Drum)
+        # Cold Wat Cons
+        # Cold Wat Cons (Second Drum)
+        # Combination
+        # Combination (Second Drum)
+        # Conn_Mode
+        # Conn_Mode (Second Drum)
+        # Country
+        # delayStartMode
+        # delayStartMode (Second Drum)
+        # Depth
+        # Depth (Second Drum)
+        # DetergentType
+        # DetergentType (Second Drum)
+        # Height
+        # Height (Second Drum)
+        # Hot Wat Cons
+        # Hot Wat Cons (Second Drum)
+        # internal_heater
+        # internal_heater (Second Drum)
+        # Loading
+        # Loading (Second Drum)
+        # MachineAction
+        # MachineAction (Second Drum)
+        self.model_number = row[33]  # Model No
+        # Family Name
+        self.measure_description = row[35]  # N-Standard
+        # New SRI
+        # New SRI (Second Drum)
+        # New Star
+        # New Star (Second Drum)
+        # postProgenergy
+        # postProgenergy (Second Drum)
+        # powerConsMode
+        # powerConsMode (Second Drum)
+        # Prog Name
+        # Prog Name (Second Drum)
+        # Sold_in
+        self.standby_power = self.none_or_float(row[47])  # standbyPowerUsage
+        # standbyPowerUsage (Second Drum)
+        # Submit_ID
+        # SubmitStatus
+        # Test Prog Time
+        # Test Prog Time (Second Drum)
+        # Tot Wat Cons
+        # Tot Wat Cons (Second Drum)
+        # Type
+        # Type (Second Drum)
+        # WEI
+        # WEI (Second Drum)
+        # Width
+        # Width (Second Drum)
+        # ExpDate
+        # GrandDate
+        # Product Class
+        # Availability Status
+        # Product Website
+        # Representative Brand URL
+        # Program Time
+        # Program Time (Second Drum)
+        # Hot Water (L)
+        # Hot Water (L) (Second Drum)
+        # Cold Water (L)
+        # Cold Water (L) (Second Drum)
+        # Star Rating (old)
+        # Star Image Large
+        # Star Image Large (Second Drum)
+        # Star Image Small
+        # Star Image Small (Second Drum)
+        # Registration Number
 
 
+# TODO: This seems either a good candidate of "fixed x usage or cycle". IE the CEC figures are kwh for 365 *uses*, rather than daily.
 class DishwasherMapper(DefaultMapper):
     def __init__(self, row):
         self.device_type = "appliance"
         # ApplStandard
-        self.brand = row[1] # Brand
+        self.brand = row[1]  # Brand
         # Cap
-        self.watts = self.cec_to_watts(row[3]) # CEC_ 
+        self.watts = self.cec_to_watts(row[3])  # CEC_
         # Conn_Type
         # Country
         # delayStartMode
-        # Depth 
+        # Depth
         # Height
         # Load_Type
-        self.model_number = row[10] # Model No
+        self.model_number = row[10]  # Model No
         # Family Name
-        self.measure_description = row[12] # N-Standard
+        self.measure_description = row[12]  # N-Standard
         # New SRI
         # New Star
         # postProgenergy
@@ -220,20 +326,20 @@ class DishwasherMapper(DefaultMapper):
         # Prog Name
         # Prog Time
         # Sold_in
-        self.active_standby_power = self.none_or_float(row[20]) # standbyPowerUsage
-        # Submit_ID  
-        # SubmitStatus  
-        # Tot Wat Cons 
-        # Type 
-        # Water_Softener 
-        # Width 
-        # ExpDate 
-        # GrandDate 
-        # Product Class 
+        self.active_standby_power = self.none_or_float(row[20])  # standbyPowerUsage
+        # Submit_ID
+        # SubmitStatus
+        # Tot Wat Cons
+        # Type
+        # Water_Softener
+        # Width
+        # ExpDate
+        # GrandDate
+        # Product Class
         # Availability Status
         # Product Website
         # Representative Brand URL
-        self.water_consumption_litres = row[33] # Water Consumption (litres)
+        self.water_consumption_litres = row[33]  # Water Consumption (litres)
         # Star Rating (old)
         # Star Image Large
         # Star Image Small
@@ -249,6 +355,7 @@ class DistributionTransformerMapper(DefaultMapper):
         self.x = row
 
 
+# TODO: Unclear how to map these, as its Height, Width, Depth x Efficiency or TotalEnergyConsumption/24h. Also... commercial display cabinents.
 class RefrigeratedCabinetMapper(DefaultMapper):
     def __init__(self, row):
         self.device_type = "appliance"
