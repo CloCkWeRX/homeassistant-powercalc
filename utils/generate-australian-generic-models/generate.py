@@ -4,7 +4,7 @@ import csv
 categories = {
     # "28": "Refrigerator/Freezer",
     # "32": "Televisions",
-    # "33": "Set Top Boxes",
+    "33": "Set Top Boxes",
     # "34": "Linear Fluorescent Lamps",
     # "35": "Clothes Dryers",
     # "37": "Refrigerated Cabinets",
@@ -30,7 +30,7 @@ categories = {
 
 class DefaultMapper:
     def __init__(self, row):
-        return
+        self.device_type = "appliance"
 
     def as_model_json(self):
         return {
@@ -38,7 +38,7 @@ class DefaultMapper:
             "aliases": [self.model_number],
             "measure_description": self.measure_description,
             "measure": "manual",
-            "device_type": "appliance",
+            "device_type": self.device_type,
             "supported_modes": ["fixed"],
             "fixed_config": {"watt": self.watts},
         }
@@ -87,7 +87,6 @@ class TelevisionMapper(DefaultMapper):
 class SetTopBoxMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
-        #
 
 
 class PoolPumpMapper(DefaultMapper):
@@ -125,84 +124,64 @@ class CloseControlAirConditionerMapper(DefaultMapper):
         self.x = row
 
 
-class ChillerMapper:
+class ChillerMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
 
-class HotWaterHeaterEletricMapper:
+class HotWaterHeaterEletricMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
 
-class ExternalPowerSupplyMapper:
+class ExternalPowerSupplyMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class ElectricMotorMapper:
+class ElectricMotorMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class BallastMapper:
+class BallastMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class ClothesWasherMapper:
+class ClothesWasherMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class DishwasherMapper:
+class DishwasherMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class ElvMapper:
+class ElvMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class DistributionTransformerMapper:
+class DistributionTransformerMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class RefrigeratedCabinetMapper:
+class RefrigeratedCabinetMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class ClothesDryerMapper:
+class ClothesDryerMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
-    #
 
-
-class LinearFlueroLampMapper:
+class LinearFlueroLampMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
-
-    #
 
 
 class RefrigeratorFreezerMapper:
@@ -251,7 +230,6 @@ class RefrigeratorFreezerMapper:
         # Star Image Small
         # Registration Number
 
-    def as_model_json(self):
         return {
             "name": self.brand + " " + self.model_number,
             "aliases": [self.model_number],
@@ -265,6 +243,8 @@ class RefrigeratorFreezerMapper:
 
 class IncandescentLampMapper:
     def __init__(self, row):
+        self.device_type = "light"
+
         # "Submit_ID",
         self.brand = row[1]  # "Brand",
         self.model_number = row[2]  # "Model_No",
@@ -290,22 +270,32 @@ class IncandescentLampMapper:
         # "Lamp Type",
         self.measure_description = row[23]  # "What test standard was used"
 
-    def as_model_json(self):
-        return {
-            "name": self.brand + " " + self.model_number,
-            "aliases": [self.model_number],
-            "measure_description": self.measure_description,
-            "measure": "manual",
-            "device_type": "light",
-            "supported_modes": ["fixed"],
-            "fixed_config": {"watt": self.watts},
-        }
-
 
 mappers = {
     "Incandescent Lamps": IncandescentLampMapper,
     "Refrigerator/Freezer": RefrigeratorFreezerMapper,
     "Televisions": TelevisionMapper,
+    "Set Top Boxes": SetTopBoxMapper,
+    "Linear Fluorescent Lamps": LinearFluorescentLampMapper,
+    "Clothes Dryers": ClothesDryerMapper,
+    "Refrigerated Cabinets": RefrigeratedCabinentMapper,
+    "Distribution Transformers": DistributionTransformerMapper,
+    "ELV Lighting Converter/Transformer": ElvMapper,
+    "Incandescent Lamps": IncandescentLampMapper,
+    "Dishwashers": DishwasherMapper,
+    "Clothes Washers": ClothesWasherMapper,
+    "Ballasts": BallastMapper,
+    "Electric Motors": ElectricMotorMapper,
+    "External Power Supply": ExternalPowerSupplyMapper,
+    "Hot Water Heaters (Electric)": HotWaterHeaterElectricMapper,
+    "Chillers": ChillerMapper,
+    "Close Control Air Conditioners": CloseControlAirConditionerMapper,
+    "Compact Fluorescent Lamps": CompatFluorescentLampMapper,
+    "Hot Water Heaters (Gas)": HotWaterHeaterGasMapper,
+    "Air Conditioners": AirConditionerMapper,
+    "Computers": ComputerMapper,
+    "Computer Monitors": ComputerMonitorMapper,
+    "Pool Pump": PoolPumpMapper,
 }
 
 # TODO: Each of these is a different format
