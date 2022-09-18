@@ -6,7 +6,7 @@ categories = {
     #"32": "Televisions",
     #"33": "Set Top Boxes",
     # "34": "Linear Fluorescent Lamps",
-    "35": "Clothes Dryers",
+    # "35": "Clothes Dryers",
     # "37": "Refrigerated Cabinets",
     # "38": "Distribution Transformers",
     # "39": "ELV Lighting Converter/Transformer",
@@ -257,7 +257,34 @@ class ClothesDryerMapper(DefaultMapper):
 
 class LinearFluorescentLampMapper(DefaultMapper):
     def __init__(self, row):
-        self.x = row
+        self.device_type = "light"
+        # self.measure_description = row[0] # ApplStandard  
+        self.brand = row[1] # Brand 
+        # Country 
+        # Lamp_Freq 
+        self.model_number = row[4] # Model No
+        # Family Name
+        self.measure_description = row[6] # N-Standard
+        # nom_len
+        self.watts = float(row[8])# nom_watt 
+        # Rated_CRI 
+        # Rated_IE
+        # Rated_IL
+        # Rated_ILW
+        # Rated_ME 
+        # Rated_ML 
+        # Rated_MLW 
+        # Sold_in
+        # Submit_ID 
+        # SubmitStatus 
+        # ExpDate 
+        # GrandDate 
+        # Product Class 
+        # Availability Status
+        # Product Website 
+        # Representative Brand URL
+        # ILCOS Code
+        # Nominal Diameter (mm)
 
 
 class RefrigeratorFreezerMapper(DefaultMapper):
