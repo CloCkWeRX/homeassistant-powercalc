@@ -2,11 +2,11 @@ import urllib.request
 import csv
 
 categories = {
-    "28": "Refrigerator/Freezer",
-    "32": "Televisions",
-    "33": "Set Top Boxes",
+    #"28": "Refrigerator/Freezer",
+    #"32": "Televisions",
+    #"33": "Set Top Boxes",
     # "34": "Linear Fluorescent Lamps",
-    # "35": "Clothes Dryers",
+    "35": "Clothes Dryers",
     # "37": "Refrigerated Cabinets",
     # "38": "Distribution Transformers",
     # "39": "ELV Lighting Converter/Transformer",
@@ -219,7 +219,40 @@ class RefrigeratedCabinetMapper(DefaultMapper):
 
 class ClothesDryerMapper(DefaultMapper):
     def __init__(self, row):
-        self.x = row
+        self.device_type = 'appliance'
+        # self.measure_description = row[0] # ApplStandard
+        self.brand = row[1] # Brand   
+        # Cap 
+        # Combination 
+        # Control
+        # Country
+        # Depth
+        # Height
+        self.model_number = row[8] # Model No    
+        # Family Name 
+        self.measure_description = row[10] # N-Standard
+        self.watts = self.cec_to_watts(row[11]) # New CEC 
+        # New SRI 
+        # New Star    
+        # Prog Name   
+        # Prog Time   
+        # Sold_in 
+        # SubmitStatus    
+        # Submit_ID   
+        # Test_Moist_Remove   
+        # Tot_Wat_Cons    
+        # Type   
+        # Width 
+        # ExpDate 
+        # GrandDate 
+        # Product Class 
+        # Availability Status
+        # Product Website 
+        # Representative Brand URL  
+        # Star Rating (old) 
+        # Star Image Large 
+        # Star Image Small
+
 
 
 class LinearFluorescentLampMapper(DefaultMapper):
