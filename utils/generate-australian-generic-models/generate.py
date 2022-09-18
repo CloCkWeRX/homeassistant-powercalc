@@ -129,7 +129,7 @@ class ChillerMapper(DefaultMapper):
         self.x = row
 
 
-class HotWaterHeaterEletricMapper(DefaultMapper):
+class HotWaterHeaterElectricMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
@@ -179,7 +179,7 @@ class ClothesDryerMapper(DefaultMapper):
         self.x = row
 
 
-class LinearFlueroLampMapper(DefaultMapper):
+class LinearFluorescentLampMapper(DefaultMapper):
     def __init__(self, row):
         self.x = row
 
@@ -278,7 +278,7 @@ mappers = {
     "Set Top Boxes": SetTopBoxMapper,
     "Linear Fluorescent Lamps": LinearFluorescentLampMapper,
     "Clothes Dryers": ClothesDryerMapper,
-    "Refrigerated Cabinets": RefrigeratedCabinentMapper,
+    "Refrigerated Cabinets": RefrigeratedCabinetMapper,
     "Distribution Transformers": DistributionTransformerMapper,
     "ELV Lighting Converter/Transformer": ElvMapper,
     "Incandescent Lamps": IncandescentLampMapper,
@@ -290,7 +290,7 @@ mappers = {
     "Hot Water Heaters (Electric)": HotWaterHeaterElectricMapper,
     "Chillers": ChillerMapper,
     "Close Control Air Conditioners": CloseControlAirConditionerMapper,
-    "Compact Fluorescent Lamps": CompatFluorescentLampMapper,
+    "Compact Fluorescent Lamps": CompactFluorescentLampMapper,
     "Hot Water Heaters (Gas)": HotWaterHeaterGasMapper,
     "Air Conditioners": AirConditionerMapper,
     "Computers": ComputerMapper,
