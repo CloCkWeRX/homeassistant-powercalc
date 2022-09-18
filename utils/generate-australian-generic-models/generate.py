@@ -10,8 +10,8 @@ categories = {
     # "37": "Refrigerated Cabinets",
     # "38": "Distribution Transformers",
     # "39": "ELV Lighting Converter/Transformer",
-    "40": "Incandescent Lamps",
-    # "41": "Dishwashers",
+    # "40": "Incandescent Lamps",
+    "41": "Dishwashers",
     # "49": "Clothes Washers",
     # "51": "Ballasts",
     # "54": "Electric Motors",
@@ -199,7 +199,44 @@ class ClothesWasherMapper(DefaultMapper):
 
 class DishwasherMapper(DefaultMapper):
     def __init__(self, row):
-        self.x = row
+        self.device_type = "appliance"
+        # ApplStandard
+        self.brand = row[1] # Brand
+        # Cap
+        self.watts = self.cec_to_watts(row[3]) # CEC_ 
+        # Conn_Type
+        # Country
+        # delayStartMode
+        # Depth 
+        # Height
+        # Load_Type
+        self.model_number = row[10] # Model No
+        # Family Name
+        self.measure_description = row[12] # N-Standard
+        # New SRI
+        # New Star
+        # postProgenergy
+        # powerConsMode
+        # Prog Name
+        # Prog Time
+        # Sold_in
+        self.active_standby_power = self.none_or_float(row[20]) # standbyPowerUsage
+        # Submit_ID  
+        # SubmitStatus  
+        # Tot Wat Cons 
+        # Type 
+        # Water_Softener 
+        # Width 
+        # ExpDate 
+        # GrandDate 
+        # Product Class 
+        # Availability Status
+        # Product Website
+        # Representative Brand URL
+        self.water_consumption_litres = row[33] # Water Consumption (litres)
+        # Star Rating (old)
+        # Star Image Large
+        # Star Image Small
 
 
 class ElvMapper(DefaultMapper):
