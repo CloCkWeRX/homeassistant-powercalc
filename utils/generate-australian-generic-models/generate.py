@@ -46,9 +46,15 @@ class DefaultMapper:
     def cec_to_watts(self, value):
         return float(value) / 365 / 24 / 60 / 60
 
+    def none_or_float(self, value):
+        if value == "-":
+            return None
+        return float(value)
+
 
 class TelevisionMapper(DefaultMapper):
     def __init__(self, row):
+        self.device_type = "appliance"
         # Submit_ID
         self.brand = row[1]  # Brand_Reg
         self.model_number = row[2]  # Model_No
@@ -58,10 +64,8 @@ class TelevisionMapper(DefaultMapper):
         # screensize
         # Screen_Area
         # Screen_Tech
-        if row[9] != "-":
-            self.passive_standby_power = float(row[9])  # Pasv_stnd_power
-        if row[10] != "-":
-            self.active_standby_power = float(row[10])  # Act_stnd_power
+        self.passive_standby_power = self.none_or_float(row[9])  # Pasv_stnd_power
+        self.active_standby_power = self.none_or_float(row[10])  # Act_stnd_power
         # Act_stnd_time
         self.average_power = float(row[12])  # Avg_mode_power
         # Star
@@ -86,7 +90,32 @@ class TelevisionMapper(DefaultMapper):
 
 class SetTopBoxMapper(DefaultMapper):
     def __init__(self, row):
-        self.x = row
+        self.device_type = "appliance"
+        self.measure_description = "Unspecified standard, energyrating.gov.au"
+        # Submit_I
+        self.brand = row[1]  # Brand_Reg
+        self.model_number = row[2]  # Model_No
+        # Family Name
+        # N-Reg_Date
+        # Reg_No
+        # SoldIn
+        # Country
+        # Prod_conf
+        self.min_power = self.none_or_float(row[9])  # input_power_min
+        self.max_power = self.none_or_float(row[10])  # input_power_max
+        # decoding_type
+        # autostandby
+        # hdmistandby
+        self.passive_standby_power = self.none_or_float(row[14])  # psv_standby_power
+        self.active_standby_power = self.none_or_float(row[15])  # act_standby_power
+        self.watts = float(row[16])  # onmode_power
+        # Apply_type_for
+        # url
+        # ExpDate
+        # GrandDate
+        # SubmitStatus
+        # Product Class
+        # Availability Status
 
 
 class PoolPumpMapper(DefaultMapper):
