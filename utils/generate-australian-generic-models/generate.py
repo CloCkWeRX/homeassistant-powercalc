@@ -33,7 +33,7 @@ class DefaultMapper:
         self.device_type = "appliance"
 
     def as_model_json(self):
-        return {
+        core = {
             "name": self.brand + " " + self.model_number,
             "aliases": [self.model_number],
             "measure_description": self.measure_description,
@@ -42,6 +42,20 @@ class DefaultMapper:
             "supported_modes": ["fixed"],
             "fixed_config": {"watt": self.watts},
         }
+
+        if self.min_power:
+            core["fixed_config"]["min_power"] = self.min_power
+
+        if self.max_power:
+            core["fixed_config"]["max_power"] = self.max_power
+
+        if self.active_standby_power:
+            core["fixed_config"]["standby_power_on"] = self.active_standby_power
+
+        if self.passive_standby_power:
+            core["fixed_config"]["standby_power"] = self.passive_standby_power
+
+        return core
 
     def cec_to_watts(self, value):
         return float(value) / 365 / 24 / 60 / 60
